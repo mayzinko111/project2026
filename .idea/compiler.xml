@@ -9,22 +9,23 @@
         <module name="eurekaserver" />
         <module name="gatewayserver" />
         <module name="cards" />
+        <module name="common" />
         <module name="loans" />
         <module name="accounts" />
-        <module name="common-lib" />
         <module name="configserver" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="accounts" options="-parameters" />
-      <module name="cards" options="-parameters" />
-      <module name="common-lib" options="-parameters" />
-      <module name="configserver" options="-parameters" />
-      <module name="eurekaserver" options="-parameters" />
-      <module name="gatewayserver" options="-parameters" />
-      <module name="loans" options="-parameters" />
+      <module name="accounts" options="" />
+      <module name="cards" options="" />
+      <module name="common" options="" />
+      <module name="common-lib" options="" />
+      <module name="configserver" options="" />
+      <module name="eurekaserver" options="" />
+      <module name="gatewayserver" options="" />
+      <module name="loans" options="" />
     </option>
   </component>
 </project>
