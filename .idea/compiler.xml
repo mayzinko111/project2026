@@ -19,7 +19,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="accounts" options="" />
+      <module name="accounts" options="-parameters" />
       <module name="cards" options="" />
       <module name="common" options="" />
       <module name="common-lib" options="" />

@@ -23,17 +23,23 @@ public class GatewayserverApplication {
                     .route(p -> p
                             .path("/eazybank/accounts/**")
                             .filters( f -> f.rewritePath("/eazybank/accounts/(?<segment>.*)","/${segment}")
-                                    .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+                                    .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                                    .circuitBreaker(config -> config.setName("accountsCircuitBreaker")
+                                            .setFallbackUri("forward:/contactSupport")))
                             .uri("lb://ACCOUNTS"))
                     .route(p -> p
                             .path("/eazybank/loans/**")
                             .filters( f -> f.rewritePath("/eazybank/loans/(?<segment>.*)","/${segment}")
-                                    .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+                                    .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                                    .circuitBreaker(config -> config.setName("loansCircuitBreaker")
+                                    .setFallbackUri("forward:/contactSupport")))
                             .uri("lb://LOANS"))
                     .route(p -> p
                             .path("/eazybak/cards/**")
                             .filters(f -> f.rewritePath("/eazybak/cards/(?<segment>.*)", "/${segment}")
-                                    .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+                                    .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                                    .circuitBreaker(config -> config.setName("cardsCircuitBreaker")
+                                    .setFallbackUri("forward:/contactSupport")))
                             .uri("lbb://CARDS"))
                     .build();
     }

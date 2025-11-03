@@ -75,7 +75,7 @@ public class CardsController {
     }
     )
     @PostMapping("/create")
-    public ResponseEntity<ResponseDto> createCard(@Valid @RequestParam
+    public ResponseEntity<ResponseDto> createCard(@Valid @RequestParam("mobileNumber")
                                                       @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
                                                       String mobileNumber) {
         iCardsService.createCard(mobileNumber);

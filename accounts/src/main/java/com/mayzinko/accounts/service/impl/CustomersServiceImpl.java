@@ -24,8 +24,8 @@ public class CustomersServiceImpl implements ICustomersService {
 
     private AccountsRepository accountsRepository;
     private CustomerRepository customerRepository;
-    //private CardsFeignClient cardsFeignClient;
-    //private LoansFeignClient loansFeignClient;
+    private CardsFeignClient cardsFeignClient;
+    private LoansFeignClient loansFeignClient;
 
     /**
      * @param mobileNumber - Input Mobile Number
@@ -35,9 +35,7 @@ public class CustomersServiceImpl implements ICustomersService {
     @Override
     public CustomerDetailsDto fetchCustomerDetails(String mobileNumber, String correlationId) {
         Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
-                () -> {
-                    return new ResourceNotFoundException("Customer", "mobileNumber", mobileNumber);
-                }
+                () -> new ResourceNotFoundException("Customer", "mobileNumber", mobileNumber)
         );
         Accounts accounts = accountsRepository.findByCustomerId(customer.getCustomerId()).orElseThrow(
                 () -> new ResourceNotFoundException("Account", "customerId", customer.getCustomerId().toString())
@@ -45,13 +43,18 @@ public class CustomersServiceImpl implements ICustomersService {
 
         CustomerDetailsDto customerDetailsDto = CustomerMapper.mapToCustomerDetailsDto(customer, new CustomerDetailsDto());
         customerDetailsDto.setAccountsDto(AccountsMapper.mapToAccountsDto(accounts, new AccountsDto()));
-/*
+
         ResponseEntity<LoansDto> loansDtoResponseEntity = loansFeignClient.fetchLoanDetails(correlationId, mobileNumber);
-        customerDetailsDto.setLoansDto(loansDtoResponseEntity.getBody());
+        if(null != loansDtoResponseEntity) {
+            customerDetailsDto.setLoansDto(loansDtoResponseEntity.getBody());
+        }
 
         ResponseEntity<CardsDto> cardsDtoResponseEntity = cardsFeignClient.fetchCardDetails(correlationId, mobileNumber);
-        customerDetailsDto.setCardsDto(cardsDtoResponseEntity.getBody());
-*/
+        if(null != cardsDtoResponseEntity) {
+            customerDetailsDto.setCardsDto(cardsDtoResponseEntity.getBody());
+        }
+
+
         return customerDetailsDto;
 
     }
